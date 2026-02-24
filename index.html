@@ -3,359 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI FirstApp — RSVP</title>
+    <title>AI FirstApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --bg: #0a0a0f;
-            --surface: #12121a;
-            --border: rgba(139, 92, 246, 0.15);
-            --purple: #8b5cf6;
-            --blue: #3b82f6;
-            --cyan: #06b6d4;
-            --text: #e2e8f0;
-            --muted: #94a3b8;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #fff;
+            color: #111;
             min-height: 100vh;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Animated grid background */
-        .grid-bg {
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            z-index: 0;
+        .page {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 6rem;
         }
 
-        /* Floating orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            z-index: 0;
-            animation: float 20s ease-in-out infinite;
-        }
-        .orb-1 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--purple), transparent 70%);
-            top: -10%; left: -10%;
-            animation-delay: 0s;
-        }
-        .orb-2 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--blue), transparent 70%);
-            bottom: -10%; right: -10%;
-            animation-delay: -7s;
-        }
-        .orb-3 {
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, var(--cyan), transparent 70%);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -14s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(40px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 40px) scale(0.95); }
-            75% { transform: translate(30px, 20px) scale(1.02); }
-        }
-
-        /* Canvas for particles */
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Main layout */
-        .container {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        /* Badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1rem;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            background: rgba(139, 92, 246, 0.06);
-            font-size: 0.8rem;
-            color: var(--purple);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-        }
-        .badge-dot {
-            width: 6px; height: 6px;
-            background: var(--purple);
-            border-radius: 50%;
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
-            50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(139, 92, 246, 0); }
-        }
-
-        /* Heading */
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
-            text-align: center;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            line-height: 1.15;
             letter-spacing: -0.03em;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, var(--purple) 50%, var(--cyan) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
         }
 
-        .subtitle {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--muted);
-            text-align: center;
-            max-width: 520px;
-            line-height: 1.6;
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #444;
             margin-bottom: 1.5rem;
         }
 
-        /* Event date */
-        .event-date {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: rgba(18, 18, 26, 0.6);
-            backdrop-filter: blur(10px);
-        }
-        .event-date .cal-icon {
-            font-size: 1.4rem;
-        }
-        .event-date .date-text {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-        .event-date .date-sub {
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        /* RSVP Button */
-        .rsvp-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 1.1rem 2.5rem;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            border: none;
-            border-radius: 14px;
-            color: #fff;
+        .date {
             font-size: 1.1rem;
             font-weight: 600;
-            cursor: pointer;
+            color: #111;
+            margin-bottom: 2.5rem;
+        }
+
+        .rsvp {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background: #111;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
             font-family: inherit;
             text-decoration: none;
-            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            overflow: hidden;
+            border-radius: 8px;
+            transition: background 0.15s;
         }
-        .rsvp-btn:hover {
-            opacity: 0.92;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35);
-        }
-        .rsvp-btn:active { transform: translateY(0); }
-        .rsvp-btn .arrow {
-            transition: transform 0.2s;
-        }
-        .rsvp-btn:hover .arrow {
-            transform: translateX(3px);
+        .rsvp:hover {
+            background: #333;
         }
 
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-            margin-top: 4rem;
-            width: 100%;
-            max-width: 680px;
-        }
-        .feature {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: rgba(18, 18, 26, 0.6);
-            backdrop-filter: blur(10px);
-            transition: border-color 0.3s, transform 0.3s;
-        }
-        .feature:hover {
-            border-color: rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
-        }
-        .feature-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .feature h3 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
-            color: var(--text);
-        }
-        .feature p {
-            font-size: 0.75rem;
-            color: var(--muted);
-            line-height: 1.4;
-        }
-
-        /* Footer */
-        footer {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 2rem;
-            color: #334155;
-            font-size: 0.8rem;
-        }
-
-        /* Responsive */
         @media (max-width: 600px) {
-            .features {
-                grid-template-columns: 1fr;
-                max-width: 320px;
-            }
+            .page { padding: 3rem 1.25rem 4rem; }
         }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <canvas id="particles"></canvas>
+    <div class="page">
+        <h1>build your first AI app<br>in one night.</h1>
 
-    <div class="container">
-        <div class="badge">
-            <span class="badge-dot"></span>
-            Live Event
-        </div>
+        <p>we're getting together on a wednesday night to build something real with AI. no slides. no lectures. just show up with a laptop and leave with a working app.</p>
 
-        <h1><span class="gradient-text">The Future of AI<br>Starts Here</span></h1>
+        <p>doesn't matter if you've never coded before — we'll help you get there.</p>
 
-        <p class="subtitle">
-            Join us for an exclusive evening exploring the next generation of AI-powered tools.
-            Reserve your spot — space is limited.
-        </p>
+        <p class="date">wednesday, march 4, 2026.</p>
 
-        <div class="event-date">
-            <span class="cal-icon">&#x1F4C5;</span>
-            <div>
-                <div class="date-text">Wednesday, March 4, 2026</div>
-                <div class="date-sub">Don't miss it</div>
-            </div>
-        </div>
-
-        <a href="https://luma.com/tq1hi1r3" target="_blank" rel="noopener noreferrer" class="rsvp-btn">
-            RSVP Now <span class="arrow">&rarr;</span>
-        </a>
-
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">&#x26A1;</div>
-                <h3>Lightning Fast</h3>
-                <p>AI responses in milliseconds</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F9E0;</div>
-                <h3>Context-Aware</h3>
-                <p>Understands your workflow</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F512;</div>
-                <h3>Privacy First</h3>
-                <p>Your data stays yours</p>
-            </div>
-        </div>
+        <a href="https://luma.com/tq1hi1r3" target="_blank" rel="noopener noreferrer" class="rsvp">rsvp here &rarr;</a>
     </div>
-
-    <footer>&copy; 2026 AI FirstApp. All rights reserved.</footer>
-
-    <script>
-        // Particle animation
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
-                this.opacity = Math.random() * 0.4 + 0.1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
-    </script>
 </body>
 </html>
