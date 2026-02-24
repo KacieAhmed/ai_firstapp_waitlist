@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add -A && git commit -m \"$\\(cat <<'EOF'\nReplace email waitlist with RSVP link for March 4th event\n\n- Swap email form for a prominent RSVP button linking to Luma\n- Add event date card \\(Wednesday, March 4, 2026\\)\n- Remove serverless API, waitlist.md, and backend config \\(no longer needed\\)\n- Page is now purely static — no backend required\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push origin main 2>&12)"
+    ]
+  }
+}

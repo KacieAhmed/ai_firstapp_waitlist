@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI FirstApp — Join the Waitlist</title>
+    <title>AI FirstApp — RSVP</title>
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -142,140 +142,64 @@
             text-align: center;
             max-width: 520px;
             line-height: 1.6;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* Form */
-        .form-wrapper {
-            width: 100%;
-            max-width: 480px;
-        }
-
-        .input-group {
+        /* Event date */
+        .event-date {
             display: flex;
-            gap: 0;
-            background: var(--surface);
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 5px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            background: rgba(18, 18, 26, 0.6);
+            backdrop-filter: blur(10px);
         }
-        .input-group:focus-within {
-            border-color: var(--purple);
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1), 0 0 40px rgba(139, 92, 246, 0.06);
+        .event-date .cal-icon {
+            font-size: 1.4rem;
         }
-
-        .input-group input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            padding: 1rem 1.25rem;
-            font-size: 1rem;
+        .event-date .date-text {
+            font-size: 1.05rem;
+            font-weight: 600;
             color: var(--text);
-            font-family: inherit;
         }
-        .input-group input::placeholder {
-            color: #475569;
+        .event-date .date-sub {
+            font-size: 0.8rem;
+            color: var(--muted);
         }
 
-        .btn {
-            padding: 1rem 1.75rem;
+        /* RSVP Button */
+        .rsvp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1.1rem 2.5rem;
             background: linear-gradient(135deg, var(--purple), var(--blue));
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             color: #fff;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
             font-family: inherit;
+            text-decoration: none;
             transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
         }
-        .btn:hover {
+        .rsvp-btn:hover {
             opacity: 0.92;
-            transform: translateY(-1px);
-            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35);
         }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .rsvp-btn:active { transform: translateY(0); }
+        .rsvp-btn .arrow {
+            transition: transform 0.2s;
         }
-
-        .btn .spinner {
-            display: none;
-            width: 18px; height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-        .btn.loading .btn-text { display: none; }
-        .btn.loading .spinner { display: inline-block; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Messages */
-        .message {
-            margin-top: 1rem;
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-            display: none;
-            animation: fadeUp 0.4s ease;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .message.success {
-            display: block;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-        }
-        .message.error {
-            display: block;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #f87171;
-        }
-
-        /* Counter */
-        .counter {
-            margin-top: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-        .avatars {
-            display: flex;
-        }
-        .avatar {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            border: 2px solid var(--bg);
-            margin-left: -8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .avatar:first-child { margin-left: 0; }
-        .avatar-1 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
-        .avatar-2 { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
-        .avatar-3 { background: linear-gradient(135deg, #06b6d4, #10b981); }
-        .avatar-more {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--muted);
+        .rsvp-btn:hover .arrow {
+            transform: translateX(3px);
         }
 
         /* Features */
@@ -328,12 +252,6 @@
 
         /* Responsive */
         @media (max-width: 600px) {
-            .input-group {
-                flex-direction: column;
-                border-radius: 14px;
-                padding: 4px;
-            }
-            .btn { border-radius: 10px; }
             .features {
                 grid-template-columns: 1fr;
                 max-width: 320px;
@@ -351,43 +269,27 @@
     <div class="container">
         <div class="badge">
             <span class="badge-dot"></span>
-            Early Access
+            Live Event
         </div>
 
         <h1><span class="gradient-text">The Future of AI<br>Starts Here</span></h1>
 
         <p class="subtitle">
-            Be among the first to experience the next generation of AI-powered tools.
-            Join our exclusive waitlist and get early access before everyone else.
+            Join us for an exclusive evening exploring the next generation of AI-powered tools.
+            Reserve your spot — space is limited.
         </p>
 
-        <div class="form-wrapper">
-            <form id="waitlist-form" class="input-group">
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    required
-                    autocomplete="email"
-                />
-                <button type="submit" class="btn" id="submit-btn">
-                    <span class="btn-text">Join Waitlist</span>
-                    <span class="spinner"></span>
-                </button>
-            </form>
-            <div id="message" class="message"></div>
+        <div class="event-date">
+            <span class="cal-icon">&#x1F4C5;</span>
+            <div>
+                <div class="date-text">Wednesday, March 4, 2026</div>
+                <div class="date-sub">Don't miss it</div>
+            </div>
         </div>
 
-        <div class="counter">
-            <div class="avatars">
-                <div class="avatar avatar-1">K</div>
-                <div class="avatar avatar-2">A</div>
-                <div class="avatar avatar-3">M</div>
-                <div class="avatar avatar-more">+</div>
-            </div>
-            <span>Join <strong id="count">0</strong> others on the waitlist</span>
-        </div>
+        <a href="https://luma.com/tq1hi1r3" target="_blank" rel="noopener noreferrer" class="rsvp-btn">
+            RSVP Now <span class="arrow">&rarr;</span>
+        </a>
 
         <div class="features">
             <div class="feature">
@@ -454,59 +356,6 @@
             requestAnimationFrame(animate);
         }
         animate();
-
-        // Form handling
-        const form = document.getElementById('waitlist-form');
-        const btn = document.getElementById('submit-btn');
-        const msg = document.getElementById('message');
-        const countEl = document.getElementById('count');
-
-        // Load current count on page load
-        async function loadCount() {
-            try {
-                const res = await fetch('/api/subscribe?count=true');
-                if (res.ok) {
-                    const data = await res.json();
-                    countEl.textContent = data.count || 0;
-                }
-            } catch (e) { /* silent */ }
-        }
-        loadCount();
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value.trim();
-            if (!email) return;
-
-            btn.classList.add('loading');
-            btn.disabled = true;
-            msg.className = 'message';
-
-            try {
-                const res = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-                const data = await res.json();
-
-                if (res.ok) {
-                    msg.textContent = data.message || "You're on the list! We'll be in touch soon.";
-                    msg.className = 'message success';
-                    form.reset();
-                    if (data.count) countEl.textContent = data.count;
-                } else {
-                    msg.textContent = data.error || 'Something went wrong. Please try again.';
-                    msg.className = 'message error';
-                }
-            } catch (err) {
-                msg.textContent = 'Network error. Please try again.';
-                msg.className = 'message error';
-            } finally {
-                btn.classList.remove('loading');
-                btn.disabled = false;
-            }
-        });
     </script>
 </body>
 </html>

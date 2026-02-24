@@ -1,2 +1,0 @@
-# Waitlist Signups
-
